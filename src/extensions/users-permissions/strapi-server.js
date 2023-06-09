@@ -49,32 +49,56 @@ module.exports = (plugin) => {
       ctx.response.status = 200;
     }
   };
+  plugin.controllers.user.getUser = async (ctx) => {
+    const { id } = ctx.params;
+    const errors = [];
+    console.log(id);
+    const user = await strapi.db
+      .query("plugin::users-permissions.user")
+      .findOne({ where: { id: id } });
 
-  plugin.controllers.user.login = async (ctx) => {
-    const { email, password } = ctx.request.body;
+    console.log(user);
 
-    const user = await strapi.plugins[
-      "users-permissions"
-    ].services.auth.localEmailLogin({
-      email,
-      password,
-    });
-
-    if (!user) {
-      return ctx.body({ error: [["Đăng nhập thất bại."]] });
-    } else {
-      return ctx.body({ error: [["Đăng nhập ok"]] });
-    }
-
-    // ctx.send({
-    //   user: sanitizeEntity(user, {
-    //     model: strapi.plugins["plugin::users-permissions.user"].models.user,
-    //   }),
-    //   token: await strapi.plugins[
-    //     "plugin::users-permissions.user"
-    //   ].services.jwt.issue(user),
-    // });
+    (ctx.body = {
+      user: {
+        _id: user.id,
+        name: user.username,
+        email: user.email,
+        phoneNumber: user.phoneNumber,
+        totalSells: 9,
+        avatar: user.avatar,
+        isMe: true,
+      },
+    }),
+      (ctx.response.status = 200);
   };
+  /* custom login */
+
+  // plugin.controllers.user.login = async (ctx) => {
+  //   const { email, password } = ctx.request.body;
+
+  //   const user = await strapi.plugins[
+  //     "users-permissions"
+  //   ].services.auth.localEmailLogin({
+  //     email,
+  //     password,
+  //   });
+
+  //   if (!user) {
+  //     return ctx.body({ error: [["Đăng nhập thất bại."]] });
+  //   } else {
+  //     return ctx.body({ error: [["Đăng nhập ok"]] });
+  //   }
+
+  // ctx.send({
+  //   user: sanitizeEntity(user, {
+  //     model: strapi.plugins["plugin::users-permissions.user"].models.user,
+  //   }),
+  //   token: await strapi.plugins[
+  //     "plugin::users-permissions.user"
+  //   ].services.jwt.issue(user),
+  // });
+  // };
 
   plugin.controllers.user.getUserById = async (ctx) => {
     const { id } = ctx.params;
@@ -358,6 +382,15 @@ module.exports = (plugin) => {
     method: "POST",
     path: "/user/register",
     handler: "user.register",
+    config: {
+      prefix: "",
+      policies: [],
+    },
+  });
+  plugin.routes["content-api"].routes.push({
+    method: "POST",
+    path: "/user/getUser",
+    handler: "user.getUser",
     config: {
       prefix: "",
       policies: [],
