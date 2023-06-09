@@ -15,6 +15,17 @@
     "title": {
       "type": "string"
     },
+    "category": {
+      "type": "enumeration",
+      "enum": [
+        "properties",
+        "auto",
+        "electronics",
+        "clothes",
+        "toys",
+        "garden"
+      ]
+    },
     "description": {
       "type": "string"
     },
@@ -28,31 +39,23 @@
       "type": "string"
     },
     "addedAt": {
-      "type": "date"
-    },
-    "active": {
-      "type": "boolean"
+      "type": "string"
     },
     "seller": {
       "type": "relation",
-      "relation": "oneToOne",
-      "target": "plugin::users-permissions.user"
+      "relation": "manyToOne",
+      "target": "plugin::users-permissions.user",
+      "inversedBy": "createdSells"
     },
     "likes": {
       "type": "relation",
-      "relation": "oneToMany",
-      "target": "plugin::users-permissions.user"
+      "relation": "manyToMany",
+      "target": "plugin::users-permissions.user",
+      "mappedBy": "wishedProducts"
     },
-    "category": {
-      "type": "enumeration",
-      "enum": [
-        "properties",
-        "auto",
-        "electronics",
-        "clothes",
-        "toys",
-        "garden "
-      ]
+    "active": {
+      "type": "boolean",
+      "default": true
     }
   }
 }

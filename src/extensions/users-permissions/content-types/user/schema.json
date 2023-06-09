@@ -74,17 +74,14 @@
       "default": "Not specified"
     },
     "avatar": {
-      "type": "string"
+      "type": "string",
+      "default": "https://www.bing.com/ck/a?!&&p=5ef1460a167274c4JmltdHM9MTY4NjE4MjQwMCZpZ3VpZD0wNWE5MTVkZS0yNzI4LTY4ZmUtM2IwMy0wNmZhMjYyOTY5ODYmaW5zaWQ9NTQ3MQ&ptn=3&hsh=3&fclid=05a915de-2728-68fe-3b03-06fa26296986&u=a1L2ltYWdlcy9zZWFyY2g_cT3huqNuaCDhu6dlJkZPUk09SVFGUkJBJmlkPTEwODk2QTRDODFEM0VGMTM0RDVEQTUyQzk2OEI4NDgxMDNBODkzMTI&ntb=1"
     },
     "createdSells": {
       "type": "relation",
       "relation": "oneToMany",
-      "target": "api::product.product"
-    },
-    "wishedProducts": {
-      "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::product.product"
+      "target": "api::product.product",
+      "mappedBy": "seller"
     },
     "chatRooms": {
       "type": "relation",
@@ -93,6 +90,12 @@
     },
     "repeatPassword": {
       "type": "password"
+    },
+    "wishedProducts": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::product.product",
+      "inversedBy": "likes"
     }
   }
 }

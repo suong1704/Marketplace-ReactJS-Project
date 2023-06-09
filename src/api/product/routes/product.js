@@ -1,9 +1,23 @@
-'use strict';
+"use strict";
+
+const { create } = require("../../../../../server/models/Product");
 
 /**
  * product router
  */
 
-const { createCoreRouter } = require('@strapi/strapi').factories;
+const { createCoreRouter } = require("@strapi/strapi").factories;
 
-module.exports = createCoreRouter('api::product.product');
+module.exports = createCoreRouter("api::product.product", {
+  prefix: "",
+  only: ["find", "findOne", "create", "update"],
+  except: [],
+  config: {
+    find: {
+      auth: false,
+      policies: [],
+      middlewares: [],
+    },
+    
+  },
+});
