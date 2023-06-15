@@ -9,14 +9,22 @@ const { createCoreController } = require("@strapi/strapi").factories;
 module.exports = createCoreController("api::product.product", ({ strapi }) => ({
   async find(ctx) {
     try {
-      const data = await strapi.service("api::product.product").find();
-      console.log(data, "data");
+      const data = await strapi.service("api::product.product").find(ctx);
       ctx.body = data;
     } catch (err) {
       ctx.badRequest("Post report controller error", { moreDetails: err });
     }
   },
-
+  async getProductsByCategory(ctx) {
+    try {
+      const data = await strapi
+        .service("api::product.product")
+        .getProductsByCategory(ctx);
+      ctx.body = data;
+    } catch (err) {
+      ctx.badRequest("Post report controller error", { moreDetails: err });
+    }
+  },
   async getSpecific(ctx, next) {
     try {
       const data = await strapi

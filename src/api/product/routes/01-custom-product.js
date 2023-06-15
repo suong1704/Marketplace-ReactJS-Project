@@ -1,6 +1,16 @@
 module.exports = {
   routes: [
     {
+      method: "GET",
+      path: "/products/:category",
+      handler: "product.getProductsByCategory",
+      config: {
+        policies: [],
+        middlewares: [],
+        auth: false,
+      },
+    },
+    {
       method: "POST",
       path: "/products/create",
       handler: "product.createProduct",
@@ -10,6 +20,7 @@ module.exports = {
         auth: false,
       },
     },
+
     {
       method: "GET",
       path: "/products/specific/:id",
