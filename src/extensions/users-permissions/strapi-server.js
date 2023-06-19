@@ -369,14 +369,6 @@ module.exports = (plugin) => {
         isAdmin = false,
         exp,
       } = await strapi.plugins["users-permissions"].services.jwt.getToken(ctx);
-
-      const token = await strapi.db
-        .query("api::block-list.block-list")
-        .findOne({
-          where: { token: ctx.request.header.authorization.split(" ")[1] },
-          select: ["token"],
-        });
-
       if (Date.now() < exp * 1000) {
         const user = await strapi.db
           .query("plugin::users-permissions.user")
